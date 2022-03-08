@@ -4,4 +4,6 @@ x2=float(input('Unesite x kordinatu druge točke: '))
 y2=float(input('Unesite y kordinatu druge točke: '))
 k=(y2-y1)/(x2-x1)
 l=y1-k*x1
-print(('y=',k,'x',+l)
+print('y=',k,'x +',l)
+
+
