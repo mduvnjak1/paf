@@ -145,4 +145,3 @@ def najveca_brzina(v,alpha,t,T,dt,x,y):
         if element>najveća_brzina:
             najveća_brzina=element
     print(najveća_brzina)
-najveca_brzina(30,1,0,10,0.01,0,0)
