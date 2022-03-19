@@ -12,7 +12,7 @@ def kružnica(x1,y1,p,q,r):
         print('Točka se nalazi na kružnici')
     elif (x1-p)**2+(y1-q)**2>r**2:
         print('Točka se nalazi izvan kružnice')
-    d=np.sqrt(np.absolute((x1-p)**2+(y1-q)**2-r**2))
+    d=np.sqrt(np.absolute((x1-p)**2+(y1-q)**2)-r)
     print ('Udaljenost od točke do kružnice je ', d)
     a=int(input('Odaberite unosom znamenke: 1 Prikaz grafa , 2 Spremanje grafa u obliku PDF-a: '))
     if a==1:

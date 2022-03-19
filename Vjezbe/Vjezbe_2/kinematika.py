@@ -1,6 +1,7 @@
-def jednoliko_gibanje(F,m,v,x,t,T,dt):
+def jednoliko_gibanje(F,m,v,x,T,dt):
     import numpy as np
     import matplotlib.pyplot as plt
+    t=0
     a=F/m
     da=0
     n=round(T/dt)
@@ -29,12 +30,13 @@ def jednoliko_gibanje(F,m,v,x,t,T,dt):
     plt.xlabel('Time [s]')
     plt.ylabel('Position [m]')
     plt.show()
-def kosi_hitac(v,alpha,t,T,dt,x,y):
+def kosi_hitac(v,alpha,T,dt,x,y):
     import numpy as np
     import matplotlib.pyplot as plt
     vx=v*np.cos(alpha)
     vy=v*np.sin(alpha)
     n=round(T/dt)
+    t=0
     ax=0
     dax=0
     ay=-9.81
