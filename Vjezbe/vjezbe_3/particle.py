@@ -28,7 +28,7 @@ class particle:
         vy=self.lista_brzina_y[0]
         x=self.lista_položaja_x[0]
         y=self.lista_položaja_y[0]
-        dt=0.01
+        dt=0.1
         t+=dt
         ax+=0
         ay+=0
