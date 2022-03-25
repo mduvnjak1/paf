@@ -1,53 +1,47 @@
 import matplotlib.pyplot as plt
 import math
-def der3(func,x,h):
-    return((func(x+h)-func(x-h))/(2*h))
+def der(func,x,dx=0.01,m=3):
+    if m==3:
+        return((func(x+dx)-func(x-dx))/(2*dx))
+    if m==2:
+        return((func(x+dx)-func(x))/dx)
 
-def der2(func,x,h):
-    return((func(x+h)-func(x))/h)
-
-def f1(x):
-    return(3*x**2)
-
-def der3_lista(func,a,b,dx):
+def der_lista(func,a,b,dx=0.01,m=3):
     lista_tocki=[a]
-    lista_derivacija=[der3(func,a,dx)]
-    for i in range(round((b-a)/dx)):
+    lista_derivacija=[der(func,a,dx,m)]
+    while a<b:
         a+=dx
         lista_tocki.append(a)
-        der3(func,a,dx)
-        lista_derivacija.append(der3(func,a,dx))
-    print(lista_tocki)
-    print(lista_derivacija)
+        lista_derivacija.append(der(func,a,dx,m))
+    return(lista_tocki,lista_derivacija)
 
-def der2_lista(func,a,b,dx):
+def der_plot(func,a,b,dx=0.01,m=3):
+    x,dfx=der_lista(func,a,b,dx,m)
+    plt.scatter(x,dfx)
+
+def integral(func,a,b,N):
+    dx=(b-a)/N
     lista_tocki=[a]
-    lista_derivacija=[der2(func,a,dx)]
-    for i in range(round((b-a)/dx)):
+    donja_meda=[func(a)*dx]
+    gornja_meda=[func(a+dx)*dx]
+    while a<b:
         a+=dx
         lista_tocki.append(a)
-        der2(func,a,dx)
-        lista_derivacija.append(der2(func,a,dx))
-    print(lista_tocki)
-    print(lista_derivacija)
-
-def der3_plot(func,a,b,dx):
+        donja_meda.append(func(a)*dx)
+        gornja_meda.append(func(a+dx)*dx)
+    return(lista_tocki,donja_meda,gornja_meda)
+def integral_trapez(func,a,b,N):
+    dx=(b-a)/N
     lista_tocki=[a]
-    lista_derivacija=[der3(func,a,dx)]
-    for i in range(round((b-a)/dx)):
+    lista_površina=[func(a)*dx]
+    while a<b:
         a+=dx
         lista_tocki.append(a)
-        der3(func,a,dx)
-        lista_derivacija.append(der3(func,a,dx))
-    plt.plot(lista_tocki, lista_derivacija)
+        lista_površina.append((func(a)+func(a+dx))/2*dx)
+    return(lista_tocki,lista_površina)
+def integral_plot(func,a,b,N):
+    x,dm,gm=integral(func,a,b,N)
+    plt.scatter(x,dm)
+    plt.scatter(x,gm)
 
-def der2_plot(func,a,b,dx):
-    lista_tocki=[a]
-    lista_derivacija=[der2(func,a,dx)]
-    for i in range(round((b-a)/dx)):
-        a+=dx
-        lista_tocki.append(a)
-        der2(func,a,dx)
-        lista_derivacija.append(der2(func,a,dx))
-    plt.plot(lista_tocki, lista_derivacija)
-    
+  
