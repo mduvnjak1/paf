@@ -21,8 +21,7 @@ class particle:
         self.lista_polozaja_y.append(y)
     def reset(self):
         self.__init__()
-    def __move(self):
-        dt=0.1
+    def __move(self,dt=0.1):
         dax=0
         day=0
         self.lista_vremena.append(self.lista_vremena[-1]+dt)
@@ -32,13 +31,13 @@ class particle:
         self.lista_brzina_y.append(self.lista_brzina_y[-1]+self.lista_akceleracija_y[-1]*dt)
         self.lista_polozaja_x.append(self.lista_polozaja_x[-1]+self.lista_brzina_x[-1]*dt)
         self.lista_polozaja_y.append(self.lista_polozaja_y[-1]+self.lista_brzina_y[-1]*dt)
-    def range(self):
+    def range(self,dt=0.1):
         while self.lista_polozaja_y[-1]>=0:
-            self.__move()
+            self.__move(dt)
         return (self.lista_polozaja_x[-1])
-    def plot_trajectory(self):
+    def plot_trajectory(self,dt=0.01):
         while self.lista_polozaja_y[-1]>=0:
-            self.__move()
+            self.__move(dt)
         plt.plot(self.lista_polozaja_x,self.lista_polozaja_y)
         plt.show()
     def domet_analiticki(self):
@@ -49,5 +48,5 @@ class particle:
         y=self.lista_polozaja_y[0]
         D=x+vx*((-vy-np.sqrt(vy**2+2*g*y))/g)
         return D
-    def error(self):
-        return(np.abs(self.domet_analiticki()-self.range())/self.domet_analiticki())
+    def error(self,dt=0.1):
+        return(np.abs(self.domet_analiticki()-self.range(dt))/self.domet_analiticki())
