@@ -22,32 +22,32 @@ def der_po_koraku_plot(func,a,b,dx=0.01,m=3):
 def integral(func,a,b,N):
     dx=(b-a)/N
     lista_tocki=[a]
-    donja_meda=[func(a-dx)*dx]
+    donja_meda=[func(a)*dx]
     gornja_meda=[func(a+dx)*dx]
-    while a<b:
+    for i in range(N-1):
         a+=dx
         lista_tocki.append(a)
-        donja_meda.append(donja_meda[-1]+func(a-dx)*dx)
+        donja_meda.append(donja_meda[-1]+func(a)*dx)
         gornja_meda.append(gornja_meda[-1]+func(a+dx)*dx)
-    return(lista_tocki,donja_meda,gornja_meda)
+    return(donja_meda[-1],gornja_meda[-1])
 
 def integral_trapez(func,a,b,N):
     dx=(b-a)/N
     lista_tocki=[a]
-    lista_povrsina=[(func(a-dx)+func(a+dx))*dx]
-    while a<b:
+    lista_povrsina=[(func(a)+func(b))*dx/2]
+    for i in range(N-1):
         a+=dx
         lista_tocki.append(a)
-        lista_povrsina.append((lista_povrsina[-1]+(func(a-dx)+func(a+dx))*dx/2))
-    return(lista_tocki,lista_povrsina)
+        lista_povrsina.append(lista_povrsina[-1]+(func(a))*dx)
+    return(lista_povrsina[-1])
 
 def integral_po_koraku_plot(func,a,b,N):
-    x,dm,gm=integral(func,a,b,N)
-    plt.scatter(x,dm)
-    plt.scatter(x,gm)
+    dm,gm=integral(func,a,b,N)
+    plt.scatter(N,dm)
+    plt.scatter(N,gm)
 
 def integral_trapez__po_koraku_plot(func,a,b,N):
-    x,I=integral_trapez(func,a,b,N)
-    plt.scatter(x,I)
+    I=integral_trapez(func,a,b,N)
+    plt.scatter(N,I)
 
   
