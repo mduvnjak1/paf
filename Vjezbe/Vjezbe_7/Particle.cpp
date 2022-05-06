@@ -1,6 +1,15 @@
 #include <iostream>
 #include <math.h>
 #include "particle.h"
+Particle::Particle(double v_, double alpha_, double x_, double y_)
+{
+   v=v_;
+   alpha=alpha_;
+   x=x_;
+   y=y_;
+   vx=v*cos(alpha);
+   vy=v*sin(alpha);
+}
 void Particle::evolve(double dt)
 {
     vy = vy + g*dt;

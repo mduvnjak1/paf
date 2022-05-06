@@ -13,18 +13,23 @@ class Projectile:
         self.lista_polozaja_y=[]
         self.p=0
         self.Cd=0
+        self.r=0
         self.A=0
         self.m=1
         self.F=0
     
-    def set_initial_conditions(self, v, angle, x, y, Cd, p, A, m, F):
+    def set_initial_conditions(self, v, angle, x, y, Cd, p, m, F, oblik, r):
         self.p=p
         self.Cd=Cd
-        self.A=A
+        self.r=r
         self.m=m
         self.F=F
         vx=v*np.cos(angle)
         vy=v*np.sin(angle)
+        if oblik=='sfera':
+            self.A=self.r**2*np.pi
+        elif oblik=='kocka':
+            self.A=(np.abs(self.lista_brzina_x[-1])+np.abs(self.lista_brzina_y[-1]))*self.r**2
         self.lista_vremena.append(0)
         self.lista_brzina_x.append(vx)
         self.lista_brzina_y.append(vy)
