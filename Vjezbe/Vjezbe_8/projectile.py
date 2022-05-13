@@ -97,7 +97,7 @@ class Projectile:
             self.reset()
             self.set_initial_conditions( v, angle, x, y, Cd, p, A, m, F)
             lista_Cd.append(Cd)
-            lista_dometa.append(self.range(dt))
+            lista_dometa.append(self.range_rk(dt))
             Cd+=dCd
         plt.plot(lista_Cd,lista_dometa)
         plt.show()
@@ -109,7 +109,7 @@ class Projectile:
             self.reset()
             self.set_initial_conditions( v, angle, x, y, Cd, p, A, m, F)
             lista_m.append(m)
-            lista_dometa.append(self.range(dt))
+            lista_dometa.append(self.range_rk(dt))
             m+=dm
         plt.plot(lista_m,lista_dometa)
         plt.show()
