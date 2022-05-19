@@ -75,37 +75,34 @@ class Projectile:
         else:
             self.lista_energija_elastic.append(0)
         self.lista_energija_total.append(self.lista_energija_kin[-1]+self.lista_energija_pot[-1]+self.lista_energija_elastic[-1])
+    
     def plot_y_t(self,T,dt=0.01):
         while self.lista_vremena[-1]<=T:
             self.__move(dt)
         plt.plot(self.lista_vremena,self.lista_polozaja_y,label="Euler")
         plt.legend(loc="upper left")
+    
     def plot_y_t_rk(self,T,dt=0.01):
         while self.lista_vremena[-1]<=T:
             self.__move_rk(dt)
         plt.plot(self.lista_vremena,self.lista_polozaja_y,label="Runge kutta")
         plt.legend(loc="upper left")
-    def graf_domet_Cd(self, v, angle, x, y, p, A, m, F, dCd, dt=0.01):
-        Cd=0
-        lista_Cd=[]
-        lista_dometa=[]
-        while Cd<=1:
-            self.reset()
-            self.set_initial_conditions( v, angle, x, y, Cd, p, A, m, F)
-            lista_Cd.append(Cd)
-            lista_dometa.append(self.range_rk(dt))
-            Cd+=dCd
-        plt.plot(lista_Cd,lista_dometa)
-        plt.show()
-    def graf_domet_masa(self, v, angle, x, y, p, A, Cd, F, m_min, m_maks, dm, dt=0.01):
-        m=m_min
-        lista_m=[]
-        lista_dometa=[]
-        while m<=m_maks:
-            self.reset()
-            self.set_initial_conditions( v, angle, x, y, Cd, p, A, m, F)
-            lista_m.append(m)
-            lista_dometa.append(self.range_rk(dt))
-            m+=dm
-        plt.plot(lista_m,lista_dometa)
-        plt.show()
+
+    def plot_energija_t(self,T,dt=0.01):
+        while self.lista_vremena[-1]<=T:
+            self.__move(dt)
+        plt.plot(self.lista_vremena,self.lista_energija_kin,label="E.kin")
+        plt.plot(self.lista_vremena,self.lista_energija_pot,label="E.pot")
+        plt.plot(self.lista_vremena,self.lista_energija_elastic,label="E.el")
+        plt.plot(self.lista_vremena,self.lista_energija_total,label="E.total")
+        plt.legend(loc="upper left")
+    
+    
+    def plot_energija_t_rk(self,T,dt=0.01):
+        while self.lista_vremena[-1]<=T:
+            self.__move(dt)
+        plt.plot(self.lista_vremena,self.lista_energija_kin,label="E.kin")
+        plt.plot(self.lista_vremena,self.lista_energija_pot,label="E.pot")
+        plt.plot(self.lista_vremena,self.lista_energija_elastic,label="E.el")
+        plt.plot(self.lista_vremena,self.lista_energija_total,label="E.total")
+        plt.legend(loc="upper left")

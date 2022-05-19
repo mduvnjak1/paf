@@ -68,13 +68,20 @@ class Projectile:
         self.lista_polozaja_x.append(self.lista_polozaja_x[-1]+(k1x+2*k2x+2*k3x+k4x)/6)
         self.lista_polozaja_y.append(self.lista_polozaja_y[-1]+(k1y+2*k2y+2*k3y+k4y)/6)
     
-    def plot_trajectory(self,dt=0.01, T=1000):
+    def plot_trajectory(self,dt=0.01, T=50):
+        x=[]
+        y=[]
+        z=[]
         while self.lista_vremena[-1]<=T:
             self.__move(dt)
+        for element in self.lista_xyz:
+            x.append(element[0])
+            y.append(element[1])
+            z.append(element[2])
         fig = plt.figure(figsize = (8,8))
         ax = plt.axes(projection='3d')
         ax.grid()
-        ax.plot3D(self.lista_xyz[0],self.lista_xyz[1],self.lista_xyz[2])
+        ax.plot3D(x,y,z)
     def plot_trajectory_rk(self,dt=0.01):
         while self.lista_polozaja_y[-1]>=0:
             self.__move_rk(dt)
