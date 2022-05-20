@@ -92,40 +92,25 @@ class Projectile:
             self.__move(dt)
         plt.plot(self.lista_polozaja_x,self.lista_polozaja_y,label=self.oblik)
         plt.legend(loc="upper left")
+    
     def plot_trajectory_rk(self,dt=0.01):
         while self.lista_polozaja_y[-1]>=0:
             self.__move_rk(dt)
         plt.plot(self.lista_polozaja_x,self.lista_polozaja_y,label=self.oblik)
         plt.legend(loc="upper left")
-    def range(self,dt=0.1):
-        while self.lista_polozaja_y[-1]>=0:
-            self.__move(dt)
-        return (self.lista_polozaja_x[-1])
-    def range_rk(self,dt=0.1):
-        while self.lista_polozaja_y[-1]>=0:
-            self.__move_rk(dt)
-        return (self.lista_polozaja_x[-1])
-    def graf_domet_Cd(self, v, angle, x, y, p, A, m, F, dCd, dt=0.01):
-        Cd=0
-        lista_Cd=[]
-        lista_dometa=[]
-        while Cd<=1:
+    
+    def angle_to_hit_target(self, v, x, y, Cd, p, m, F, oblik, r, xm,ym,rm,dangle=0.05,dt=0.01):
+        self.lista_kuta_pogotka=[]
+        angle=0
+        while angle<=1.57:
             self.reset()
-            self.set_initial_conditions( v, angle, x, y, Cd, p, A, m, F)
-            lista_Cd.append(Cd)
-            lista_dometa.append(self.range(dt))
-            Cd+=dCd
-        plt.plot(lista_Cd,lista_dometa)
-        plt.show()
-    def graf_domet_masa(self, v, angle, x, y, p, A, Cd, F, m_min, m_maks, dm, dt=0.01):
-        m=m_min
-        lista_m=[]
-        lista_dometa=[]
-        while m<=m_maks:
-            self.reset()
-            self.set_initial_conditions( v, angle, x, y, Cd, p, A, m, F)
-            lista_m.append(m)
-            lista_dometa.append(self.range(dt))
-            m+=dm
-        plt.plot(lista_m,lista_dometa)
-        plt.show()
+            self.set_initial_conditions(v, angle, x, y, Cd, p, m, F, oblik, r)
+            while self.lista_polozaja_x[-1]<=xm:
+                self.__move(dt)
+                print(self.lista_polozaja_x[-1])
+            if (self.lista_polozaja_y[-1]<ym+rm and ym-rm<self.lista_polozaja_y[-1]):
+                self.lista_kuta_pogotka.append(angle)
+            angle+=dangle
+            print(angle)
+        print('gotovo')
+        return(self.lista_kuta_pogotka)
