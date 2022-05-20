@@ -105,6 +105,7 @@ class Projectile:
         while angle<=1.57:
             self.reset()
             self.set_initial_conditions(v, angle, x, y, Cd, p, m, F, oblik, r)
+            if
             while self.lista_polozaja_x[-1]<=xm:
                 self.__move(dt)
                 print(self.lista_polozaja_x[-1])
