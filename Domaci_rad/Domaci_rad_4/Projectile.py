@@ -99,19 +99,44 @@ class Projectile:
         plt.plot(self.lista_polozaja_x,self.lista_polozaja_y,label=self.oblik)
         plt.legend(loc="upper left")
     
+    def range(self,dt=0.1):
+        while self.lista_polozaja_y[-1]>=0:
+            self.__move(dt)
+        return (self.lista_polozaja_x[-1])
+
+    def range_rk(self,dt=0.1):
+        while self.lista_polozaja_y[-1]>=0:
+            self.__move_rk(dt)
+        return (self.lista_polozaja_x[-1])
+    
     def angle_to_hit_target(self, v, x, y, Cd, p, m, F, oblik, r, xm,ym,rm,dangle=0.05,dt=0.01):
         self.lista_kuta_pogotka=[]
         angle=0
         while angle<=1.57:
             self.reset()
             self.set_initial_conditions(v, angle, x, y, Cd, p, m, F, oblik, r)
-            if
-            while self.lista_polozaja_x[-1]<=xm:
-                self.__move(dt)
-                print(self.lista_polozaja_x[-1])
-            if (self.lista_polozaja_y[-1]<ym+rm and ym-rm<self.lista_polozaja_y[-1]):
-                self.lista_kuta_pogotka.append(angle)
+            if self.range()>xm:
+                self.reset()
+                self.set_initial_conditions(v, angle, x, y, Cd, p, m, F, oblik, r)
+                while self.lista_polozaja_x[-1]<=xm:
+                    self.__move(dt)
+                if (self.lista_polozaja_y[-1]<ym+rm and ym-rm<self.lista_polozaja_y[-1]):
+                    self.lista_kuta_pogotka.append(angle)
             angle+=dangle
-            print(angle)
-        print('gotovo')
+        return(self.lista_kuta_pogotka)
+
+    def angle_to_hit_target_rk(self, v, x, y, Cd, p, m, F, oblik, r, xm,ym,rm,dangle=0.05,dt=0.01):
+        self.lista_kuta_pogotka=[]
+        angle=0
+        while angle<=1.57:
+            self.reset()
+            self.set_initial_conditions(v, angle, x, y, Cd, p, m, F, oblik, r)
+            if self.range_rk()>xm:
+                self.reset()
+                self.set_initial_conditions(v, angle, x, y, Cd, p, m, F, oblik, r)
+                while self.lista_polozaja_x[-1]<=xm:
+                    self.__move_rk(dt)
+                if (self.lista_polozaja_y[-1]<ym+rm and ym-rm<self.lista_polozaja_y[-1]):
+                    self.lista_kuta_pogotka.append(angle)
+            angle+=dangle
         return(self.lista_kuta_pogotka)
