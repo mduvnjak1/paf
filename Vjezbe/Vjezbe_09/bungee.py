@@ -51,7 +51,7 @@ class Projectile:
         self.lista_energija_kin.append(0.5*self.m*self.lista_brzina_y[-1]**2)
         self.lista_energija_pot.append(self.m*9.81*self.lista_polozaja_y[-1])
         if np.abs(self.lista_polozaja_y[-1]-self.y)>self.l:
-            self.lista_energija_elastic.append(0.5*self.k*(self.lista_polozaja_y[-1]-self.l)**2)
+            self.lista_energija_elastic.append(0.5*self.k*(self.lista_polozaja_y[-1]-self.y+self.l)**2)
         else:
             self.lista_energija_elastic.append(0)
         self.lista_energija_total.append(self.lista_energija_kin[-1]+self.lista_energija_pot[-1]+self.lista_energija_elastic[-1])
@@ -71,7 +71,7 @@ class Projectile:
         self.lista_energija_kin.append(0.5*self.m*self.lista_brzina_y[-1]**2)
         self.lista_energija_pot.append(self.m*9.81*self.lista_polozaja_y[-1])
         if np.abs(self.lista_polozaja_y[-1]-self.y)>self.l:
-            self.lista_energija_elastic.append(0.5*self.k*(self.lista_polozaja_y[-1]-self.l)**2)
+            self.lista_energija_elastic.append(0.5*self.k*(self.lista_polozaja_y[-1]-self.y+self.l)**2)
         else:
             self.lista_energija_elastic.append(0)
         self.lista_energija_total.append(self.lista_energija_kin[-1]+self.lista_energija_pot[-1]+self.lista_energija_elastic[-1])
