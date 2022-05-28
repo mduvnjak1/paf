@@ -6,15 +6,11 @@ class Planet:
         self.lista_vremena=[]
         self.v=np.array((0,0,0))
         self.xyz=np.array((0,0,0))
-        self.F=np.array((0,0,0))
         self.a=np.array((0,0,0))
         self.lista_xyz=[]
         self.lista_v=[]
         self.lista_F=[]
         self.lista_a=[]
-        self.x=[]
-        self.y=[]
-        self.z=[]
         self.m=1
     
     def set_initial_conditions(self, xyz, v, m):
@@ -43,31 +39,47 @@ def __interact(g1,g2,F,dt=10**4):
     g1.lista_xyz.append(g1.xyz)
     g2.lista_xyz.append(g2.xyz)
     
-def __move_rk(self,dt=10**4):
-    k1v=(self.F(self.q, self.E, self.v, self.B)/self.m)*dt
-    k1=self.v*dt
-    k2v=(self.F(self.q, self.E, (self.v+0.5*k1v), self.B)/self.m)*dt
-    k2=(self.v+0.5*k1v)*dt
-    k3v=(self.F(self.q, self.E, (self.v+0.5*k2v), self.B)/self.m)*dt
-    k3=(self.v+0.5*k2v)*dt
-    k4v=(self.F(self.q, self.E, (self.v+0.5*k3v), self.B)/self.m)*dt
-    k4=(self.v+k3v)*dt
-    self.lista_vremena.append(self.lista_vremena[-1]+dt)
-    self.v=self.v+(k1v+2*k2v+2*k3v+k4v)/6
-    self.lista_v.append(self.v)
-    self.xyz=self.xyz+(k1+2*k2+2*k3+k4)/6
-    self.lista_xyz.append(self.xyz)
-    self.a=self.F(self.q, self.E, self.v, self.B)/self.m
-    self.lista_a.append(self.a)
+def __interact_rk(g1,g2,F,dt=10**4):
+    g1k1v=(F(g1,g2)/g1.m)*dt
+    g1k1=g1.v*dt
+    g1k2v=(F(g1,g2)/g1.m)*dt
+    g1k2=(g1.v+0.5*g1k1v)*dt
+    g1k3v=(F(g1,g2)/g1.m)*dt
+    g1k3=(g1.v+0.5*g1k2v)*dt
+    g1k4v=(F(g1,g2)/g1.m)*dt
+    g1k4=(g1.v+g1k3v)*dt
+    g1.lista_vremena.append(g1.lista_vremena[-1]+dt)
+    g1.v=g1.v+(g1k1v+2*g1k2v+2*g1k3v+g1k4v)/6
+    g1.lista_v.append(g1.v)
+    g1.xyz=g1.xyz+(g1k1+2*g1k2+2*g1k3+g1k4)/6
+    g1.lista_xyz.append(g1.xyz)
+    g1.a=F(g1,g2)/g1.m
+    g1.lista_a.append(g1.a)
+
+    g2k1v=(F(g2,g1)/g2.m)*dt
+    g2k1=g2.v*dt
+    g2k2v=(F(g2,g1)/g2.m)*dt
+    g2k2=(g2.v+0.5*g2k1v)*dt
+    g2k3v=(F(g2,g1)/g2.m)*dt
+    g2k3=(g2.v+0.5*g2k2v)*dt
+    g2k4v=(F(g2,g1)/g2.m)*dt
+    g2k4=(g2.v+g2k3v)*dt
+    g2.lista_vremena.append(g2.lista_vremena[-1]+dt)
+    g2.v=g2.v+(g2k1v+2*g2k2v+2*g2k3v+g2k4v)/6
+    g2.lista_v.append(g2.v)
+    g2.xyz=g2.xyz+(g2k1+2*g2k2+2*g2k3+g2k4)/6
+    g2.lista_xyz.append(g2.xyz)
+    g2.a=F(g2,g1)/g2.m
+    g2.lista_a.append(g2.a)
     
-def plot_trajectory(g1,g2,F,dt=10**5,T=150*10**6):
+def plot_trajectory(g1,g2,F,dt=10**4,T=31.557*10**6):
     g1x=[]
     g1y=[]
     g1z=[]
     g2x=[]
     g2y=[]
     g2z=[]    
-    while g1.lista_vremena[-1]<=T:
+    while (g1.lista_vremena[-1]<=T and g2.lista_vremena[-1]<=T):
         __interact(g1,g2,F,dt)
     for element in g1.lista_xyz:
         g1x.append(element[0])
@@ -80,18 +92,24 @@ def plot_trajectory(g1,g2,F,dt=10**5,T=150*10**6):
     plt.plot(g1x,g1y,label="Zemlja")
     plt.plot(g2x,g2y,label="Sunce")
     plt.legend(loc="upper left")
-def plot_trajectory_rk(self,dt=10**4, T=50):
-    x=[]
-    y=[]
-    z=[]
-    while self.lista_vremena[-1]<=T:
-        self.__move_rk(dt)
-    for element in self.lista_xyz:
-        x.append(element[0])
-        y.append(element[1])
-        z.append(element[2])
-    fig = plt.figure(figsize = (8,8))
-    ax = plt.axes(projection='3d')
-    ax.grid()
-    ax.plot3D(x,y,z,label="Runge kutta")
-    ax.legend(loc="upper left")
+
+def plot_trajectory_rk(g1,g2,F,dt=10**4,T=31.557*10**6):
+    g1x=[]
+    g1y=[]
+    g1z=[]
+    g2x=[]
+    g2y=[]
+    g2z=[]    
+    while (g1.lista_vremena[-1]<=T and g2.lista_vremena[-1]<=T):
+        __interact_rk(g1,g2,F,dt)
+    for element in g1.lista_xyz:
+        g1x.append(element[0])
+        g1y.append(element[1])
+        g1z.append(element[2])
+    for element in g2.lista_xyz:
+        g2x.append(element[0])
+        g2y.append(element[1])
+        g2z.append(element[2])
+    plt.plot(g1x,g1y,label="Zemlja_rk")
+    plt.plot(g2x,g2y,label="Sunce_rk")
+    plt.legend(loc="upper left")
