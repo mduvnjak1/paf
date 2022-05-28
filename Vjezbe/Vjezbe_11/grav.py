@@ -29,7 +29,7 @@ class Planet:
         self.__init__()
     
 
-def __interact(g1,g2,F,dt=0.1):
+def __interact(g1,g2,F,dt=10**4):
     g1.a=F(g1,g2)/g1.m
     g2.a=F(g2,g1)/g2.m
     g1.lista_vremena.append(g1.lista_vremena[-1]+dt)
@@ -43,7 +43,7 @@ def __interact(g1,g2,F,dt=0.1):
     g1.lista_xyz.append(g1.xyz)
     g2.lista_xyz.append(g2.xyz)
     
-def __move_rk(self,dt=0.1):
+def __move_rk(self,dt=10**4):
     k1v=(self.F(self.q, self.E, self.v, self.B)/self.m)*dt
     k1=self.v*dt
     k2v=(self.F(self.q, self.E, (self.v+0.5*k1v), self.B)/self.m)*dt
@@ -60,24 +60,27 @@ def __move_rk(self,dt=0.1):
     self.a=self.F(self.q, self.E, self.v, self.B)/self.m
     self.lista_a.append(self.a)
     
-def plot_trajectory(g1,g2,F,dt=10**4, T=150*10**6):
+def plot_trajectory(g1,g2,F,dt=10**5,T=150*10**6):
+    g1x=[]
+    g1y=[]
+    g1z=[]
+    g2x=[]
+    g2y=[]
+    g2z=[]    
     while g1.lista_vremena[-1]<=T:
-        __interact(g1,g2,F,dt=0.1)
+        __interact(g1,g2,F,dt)
     for element in g1.lista_xyz:
-        g1.x.append(element[0])
-        g1.y.append(element[1])
-        g1.z.append(element[2])
+        g1x.append(element[0])
+        g1y.append(element[1])
+        g1z.append(element[2])
     for element in g2.lista_xyz:
-        g2.x.append(element[0])
-        g2.y.append(element[1])
-        g2.z.append(element[2])
-    fig = plt.figure(figsize = (8,8))
-    ax = plt.axes(projection='3d')
-    ax.grid()
-    ax.plot3D(g1.x,g1.y,g1.z,label="Euler")
-    ax.plot3D(g2.x,g2.y,g2.z,label="Euler")
-    ax.legend(loc="upper left")
-def plot_trajectory_rk(self,dt=0.01, T=50):
+        g2x.append(element[0])
+        g2y.append(element[1])
+        g2z.append(element[2])
+    plt.plot(g1x,g1y,label="Zemlja")
+    plt.plot(g2x,g2y,label="Sunce")
+    plt.legend(loc="upper left")
+def plot_trajectory_rk(self,dt=10**4, T=50):
     x=[]
     y=[]
     z=[]
