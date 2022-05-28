@@ -12,7 +12,10 @@ def B0(t,T):
 def E1(t,T):
     return(np.array((0,0,0)))
 def B1(t,T):
-    return(np.array((0,0,t/T)))
+    if t<T:
+        return(np.array((0,0,t/T)))
+    else:
+        return(np.array((0,0,1)))
 
 #elektron konstantno polje
 e1=em.Projectile()
