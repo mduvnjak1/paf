@@ -71,11 +71,7 @@ class Projectile:
             x.append(element[0])
             y.append(element[1])
             z.append(element[2])
-        fig = plt.figure(figsize = (8,8))
-        ax = plt.axes(projection='3d')
-        ax.grid()
-        ax.plot3D(x,y,z,label="Euler")
-        ax.legend(loc="upper left")
+        plt.plot(x,y,z,label="Euler")
     def plot_trajectory_rk(self,dt=0.01, T=50):
         x=[]
         y=[]
@@ -86,8 +82,4 @@ class Projectile:
             x.append(element[0])
             y.append(element[1])
             z.append(element[2])
-        fig = plt.figure(figsize = (8,8))
-        ax = plt.axes(projection='3d')
-        ax.grid()
-        ax.plot3D(x,y,z,label="Runge kutta")
-        ax.legend(loc="upper left")
+        plt.plot(x,y,z,label="Runge kutta")
