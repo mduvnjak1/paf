@@ -11,9 +11,9 @@ class Planet:
         self.lista_v=[]
         self.lista_F=[]
         self.lista_a=[]
-        self.x=[]
-        self.y=[]
-        self.z=[]
+        self.x=[self.xyz[0]]
+        self.y=[self.xyz[1]]
+        self.z=[self.xyz[2]]
         self.m=1
     
     def set_initial_conditions(self, xyz, v, m):
@@ -41,6 +41,13 @@ def __interact(g1,g2,F,dt=10**4):
     g2.xyz=g2.xyz+g2.v*dt
     g1.lista_xyz.append(g1.xyz)
     g2.lista_xyz.append(g2.xyz)
+    g1.x=[self.xyz[0]]
+    g2.y=[self.xyz[1]]
+    self.z=[self.xyz[2]]
+    self.x=[self.xyz[0]]
+    self.y=[self.xyz[1]]
+    self.z=[self.xyz[2]]
+    
     
 def __interact_rk(g1,g2,F,dt=10**4):
     g1k1v=(F(g1,g2)/g1.m)*dt
