@@ -11,6 +11,9 @@ class Planet:
         self.lista_v=[]
         self.lista_F=[]
         self.lista_a=[]
+        self.x=[]
+        self.y=[]
+        self.z=[]
         self.m=1
     
     def set_initial_conditions(self, xyz, v, m):
@@ -20,6 +23,9 @@ class Planet:
         self.lista_vremena.append(0)
         self.lista_xyz.append(self.xyz)
         self.lista_v.append(self.v)
+        self.x=[self.xyz[0]]
+        self.y=[self.xyz[1]]
+        self.z=[self.xyz[2]]
     
     def reset(self):
         self.__init__()
@@ -38,6 +44,12 @@ def __interact(g1,g2,F,dt=10**4):
     g2.xyz=g2.xyz+g2.v*dt
     g1.lista_xyz.append(g1.xyz)
     g2.lista_xyz.append(g2.xyz)
+    g1.x.append(g1.xyz[0])
+    g1.y.append(g1.xyz[1])
+    g1.z.append(g1.xyz[2])
+    g2.x.append(g2.xyz[0])
+    g2.y.append(g2.xyz[1])
+    g2.z.append(g2.xyz[2])
     
 def __interact_rk(g1,g2,F,dt=10**4):
     g1k1v=(F(g1,g2)/g1.m)*dt
@@ -53,6 +65,9 @@ def __interact_rk(g1,g2,F,dt=10**4):
     g1.lista_v.append(g1.v)
     g1.xyz=g1.xyz+(g1k1+2*g1k2+2*g1k3+g1k4)/6
     g1.lista_xyz.append(g1.xyz)
+    g1.x.append(g1.xyz[0])
+    g1.y.append(g1.xyz[1])
+    g1.z.append(g1.xyz[2])
     g1.a=F(g1,g2)/g1.m
     g1.lista_a.append(g1.a)
 
@@ -69,47 +84,22 @@ def __interact_rk(g1,g2,F,dt=10**4):
     g2.lista_v.append(g2.v)
     g2.xyz=g2.xyz+(g2k1+2*g2k2+2*g2k3+g2k4)/6
     g2.lista_xyz.append(g2.xyz)
+    g2.x.append(g2.xyz[0])
+    g2.y.append(g2.xyz[1])
+    g2.z.append(g2.xyz[2])
     g2.a=F(g2,g1)/g2.m
     g2.lista_a.append(g2.a)
     
-def plot_trajectory(g1,g2,F,dt=10**4,T=31.557*10**6):
-    g1x=[]
-    g1y=[]
-    g1z=[]
-    g2x=[]
-    g2y=[]
-    g2z=[]    
+def plot_trajectory(g1,g2,F,dt=10**4,T=31.557*10**6): 
     while (g1.lista_vremena[-1]<=T and g2.lista_vremena[-1]<=T):
         __interact(g1,g2,F,dt)
-    for element in g1.lista_xyz:
-        g1x.append(element[0])
-        g1y.append(element[1])
-        g1z.append(element[2])
-    for element in g2.lista_xyz:
-        g2x.append(element[0])
-        g2y.append(element[1])
-        g2z.append(element[2])
-    plt.plot(g1x,g1y,label="Zemlja")
-    plt.plot(g2x,g2y,label="Sunce")
+    plt.plot(g1.x,g1.y,label="Zemlja")
+    plt.plot(g2.x,g2.y,label="Sunce")
     plt.legend(loc="upper left")
 
-def plot_trajectory_rk(g1,g2,F,dt=10**4,T=31.557*10**6):
-    g1x=[]
-    g1y=[]
-    g1z=[]
-    g2x=[]
-    g2y=[]
-    g2z=[]    
+def plot_trajectory_rk(g1,g2,F,dt=10**4,T=31.557*10**6):  
     while (g1.lista_vremena[-1]<=T and g2.lista_vremena[-1]<=T):
         __interact_rk(g1,g2,F,dt)
-    for element in g1.lista_xyz:
-        g1x.append(element[0])
-        g1y.append(element[1])
-        g1z.append(element[2])
-    for element in g2.lista_xyz:
-        g2x.append(element[0])
-        g2y.append(element[1])
-        g2z.append(element[2])
-    plt.plot(g1x,g1y,label="Zemlja_rk")
-    plt.plot(g2x,g2y,label="Sunce_rk")
+    plt.plot(g1.x,g1.y,label="Zemlja_rk")
+    plt.plot(g2.x,g2.y,label="Sunce_rk")
     plt.legend(loc="upper left")
