@@ -29,9 +29,6 @@ class Planet:
         self.y=[self.xyz[1]]
         self.z=[self.xyz[2]]
     
-    def reset(self):
-        self.__init__()
-    
 
 def __interact(lista_objekata,F,dt=10**5):
     for g1 in lista_objekata:
