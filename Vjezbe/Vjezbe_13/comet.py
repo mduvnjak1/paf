@@ -30,6 +30,9 @@ class Planet:
         self.x=[self.xyz[0]]
         self.y=[self.xyz[1]]
         self.z=[self.xyz[2]]
+
+    def reset(self,name):
+        self.__init__(name)
     
 
 def __interact(lista_objekata,F,dt=10**5):
@@ -37,11 +40,15 @@ def __interact(lista_objekata,F,dt=10**5):
         g1.a=np.array((0,0,0))
         for g2 in lista_objekata:
             if (g1!=g2) and (np.linalg.norm(g2.xyz-g1.xyz)<=(g1.r+g2.r)):
-                new=Planet(g1.name+g2.name)
-                new.set_initial_conditions((g1.xyz*g1.m+g2.xyz*g2.m)/g1.m+g2.m, (g1.v*g1.m+g2.v*g2.m)/g1.m+g2.m, g1.m+g2.m, (g1.r*g1.m+g2.r*g2.m)/g1.m+g2.m)
-                lista_objekata.append(new)
-                g1.set_initial_conditions(np.array((0,0,0)),np.array((0,0,0)),1,0)
-                g2.set_initial_conditions(np.array((0,0,0)),np.array((0,0,0)),1,0)
+                print("hit"+g1.name+g2.name)
+                xyzp=g1.xyz
+                vp=g1.v
+                mp=g1.m
+                rp=g1.r
+                g1.reset(g1.name + " " + g2.name)
+                g1.set_initial_conditions((xyzp*mp+g2.xyz*g2.m)/(mp+g2.m), (vp*mp+g2.v*g2.m)/(mp+g2.m), (mp+g2.m), (rp*mp+g2.r*g2.m)/(mp+g2.m))
+                print(g1.v)
+                lista_objekata.remove(g2)
             if g1!=g2:
                 g1.a=g1.a+F(g1,g2)/g1.m
         g1.lista_vremena.append(g1.lista_vremena[-1]+dt)
