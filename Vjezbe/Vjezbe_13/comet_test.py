@@ -16,7 +16,7 @@ Mercury.set_initial_conditions(np.array((57.9*10**9,0,0)),np.array((0,47.4*10**(
 Venus.set_initial_conditions(np.array((108.2*10**9,0,0)),np.array((0,35*10**(3),0)),4.87*10**24,6051.8*10**3)
 Earth.set_initial_conditions(np.array((149.6*10**9,0,0)),np.array((0,29.783*10**(3),0)),5.9742*10**24,6371*10**3)
 Mars.set_initial_conditions(np.array((228*10**9,0,0)),np.array((0,24.1*10**(3),0)),0.642*10**24,3389.5*10**3)
-Halley.set_initial_conditions(np.array((-400*10**9,-350*10**9,0)),np.array((10*10**(3),20*10**(3),0)),3*10**14,10*10**3)
+Halley.set_initial_conditions(np.array((-400*10**9,-350*10**9,0)),np.array((9508.7,17199.26,0)),3*10**14,10*10**3)
 lista_objekata=[Sun, Mercury, Venus, Earth, Mars, Halley]
 U.universe_plot_trajectory(lista_objekata,F1)
 plt.show()
@@ -31,14 +31,14 @@ Halley=U.Planet("Halley")
 Sun.set_initial_conditions(np.array((0,0,0)),np.array((0,0,0)),1.989*10**30,696340*10**3)
 Mercury.set_initial_conditions(np.array((57.9*10**9,0,0)),np.array((0,47.4*10**(3),0)),0.33*10**24,2439.7*10**3)
 Venus.set_initial_conditions(np.array((108.2*10**9,0,0)),np.array((0,35*10**(3),0)),4.87*10**24,6051.8*10**3)
-Earth.set_initial_conditions(np.array((149.6*10**9,0,0)),np.array((0,29.783*10**(3),0)),5.9742*10**24,6371*10**3)
+Earth.set_initial_conditions(np.array((149.6*10**9,0,0)),np.array((0,29.783*10**(3),0)),5.9742*10**24,6371*10**6)
 Mars.set_initial_conditions(np.array((228*10**9,0,0)),np.array((0,24.1*10**(3),0)),0.642*10**24,3389.5*10**3)
-Halley.set_initial_conditions(np.array((-400*10**9,-350*10**9,0)),np.array((10*10**(3),20*10**(3),0)),3*10**14,10*10**3)
+Halley.set_initial_conditions(np.array((-400*10**9,-350*10**9,0)),np.array((9508.7,17199.26,0)),3*10**14,10*10**3)
 lista_objekata=[Sun, Mercury, Venus, Earth, Mars, Halley]
-#U.universe_animate_trajectory(lista_objekata,F1)
+U.universe_animate_trajectory(lista_objekata,F1)
 
-vy=19*10**3
-while vy<21*10**3:
+v=9.5085*10**3
+while v<=9.509*10**3:
     Sun=U.Planet("Sun")
     Mercury=U.Planet("Mercury")
     Venus=U.Planet("Venus")
@@ -51,8 +51,9 @@ while vy<21*10**3:
     Venus.set_initial_conditions(np.array((108.2*10**9,0,0)),np.array((0,35*10**(3),0)),4.87*10**24,6051.8*10**3)
     Earth.set_initial_conditions(np.array((149.6*10**9,0,0)),np.array((0,29.783*10**(3),0)),5.9742*10**24,6371*10**3)
     Mars.set_initial_conditions(np.array((228*10**9,0,0)),np.array((0,24.1*10**(3),0)),0.642*10**24,3389.5*10**3)
-    Halley.set_initial_conditions(np.array((-400*10**9,-350*10**9,0)),np.array((10*10**(3),vy,0)),3*10**14,10*10**3)
+    Halley.set_initial_conditions(np.array((-400*10**9,-350*10**9,0)),np.array((9508.7,17199.26,0)),3*10**14,10*10**3)
     lista_objekata=[Sun, Mercury, Venus, Earth, Mars, Halley]
-    U.universe_plot_trajectory(lista_objekata,F1)
-    plt.show()
-    vy+=200
+    U.universe_test_hit(lista_objekata,F1)
+    print(v)
+    v+=0.05
+    

@@ -35,12 +35,12 @@ class Planet:
         self.__init__(name)
     
 
-def __interact(lista_objekata,F,dt=10**5):
+def __interact(lista_objekata,F,dt=10**4):
     for g1 in lista_objekata:
         g1.a=np.array((0,0,0))
         for g2 in lista_objekata:
             if (g1!=g2) and (np.linalg.norm(g2.xyz-g1.xyz)<=(g1.r+g2.r)):
-                print("hit"+g1.name+g2.name)
+                print("hit"+" "+g1.name+" "+g2.name)
                 xyzp=g1.xyz
                 vp=g1.v
                 mp=g1.m
@@ -60,14 +60,14 @@ def __interact(lista_objekata,F,dt=10**5):
         g1.y.append(g1.xyz[1])
         g1.z.append(g1.xyz[2])
 
-def universe_plot_trajectory(lista_objekata,F,dt=10**5,T=5*31.557*10**6):   
+def universe_plot_trajectory(lista_objekata,F,dt=10**4,T=5*31.557*10**6):   
     while (lista_objekata[0].lista_vremena[-1]<=T):
         __interact(lista_objekata,F,dt)
     for element in lista_objekata:
         plt.plot(element.x,element.y,label=str(element.name))
     plt.legend(loc="upper left")
 
-def universe_animate_trajectory(lista_objekata,F,dt=5*10**5,T=5*31.557*10**6):   
+def universe_animate_trajectory(lista_objekata,F,dt=5*10**4,T=5*31.557*10**6):   
     while (lista_objekata[0].lista_vremena[-1]<=T):
         __interact(lista_objekata,F,dt)
         plt.xlim(-3.5*10**11,3.5*10**11)
@@ -78,3 +78,24 @@ def universe_animate_trajectory(lista_objekata,F,dt=5*10**5,T=5*31.557*10**6):
             plt.legend(loc="upper left")
         plt.pause(0.00001)
         plt.clf()
+
+def __interact_hit(lista_objekata,F,dt=10**4):
+    for g1 in lista_objekata:
+        g1.a=np.array((0,0,0))
+        for g2 in lista_objekata:
+            if (g1!=g2) and (np.linalg.norm(g2.xyz-g1.xyz)<=(g1.r+g2.r)):
+                print("hit"+" "+g1.name+" "+g2.name)
+            if g1!=g2:
+                g1.a=g1.a+F(g1,g2)/g1.m
+        g1.lista_vremena.append(g1.lista_vremena[-1]+dt)
+        g1.v=g1.v+g1.a*dt
+        g1.lista_v.append(g1.v)
+        g1.xyz=g1.xyz+g1.v*dt
+        g1.lista_xyz.append(g1.xyz)
+        g1.x.append(g1.xyz[0])
+        g1.y.append(g1.xyz[1])
+        g1.z.append(g1.xyz[2])
+
+def universe_test_hit(lista_objekata,F,dt=10**4,T=1*31.557*10**6):   
+    while (lista_objekata[0].lista_vremena[-1]<=T):
+        __interact_hit(lista_objekata,F,dt)
